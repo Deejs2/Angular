@@ -1,0 +1,194 @@
+<h3 class="mt-5">Reactive Form Example</h3>
+<div class="col-sm-12 p-5 bg-light">
+    <form [formGroup]="personalDetailFormGroup" (ngSubmit)="onSubmitForm()">
+        <h4>Personal Details</h4>
+        <hr>
+        <div class="row my-4">
+            <div class="col-sm-4">
+                <label for="" class="form-label">Your First Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="firstname" id="firstname" name="firstname"
+                    placeholder="Enter Your First name">
+                <span class="text-danger"
+                    *ngIf="formSubmitStatus && personalDetailFormGroup.get('firstname')?.errors?.['required']">
+                    FirstName is required.
+                </span>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Your Last Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="lastname" id="lastname" name="lastname"
+                    placeholder="Enter Your Last name" required>
+                <span *ngIf="formSubmitStatus && personalDetailFormGroup.get('lastname')?.errors?.['required']"
+                    class="text-danger">
+                    LastName is required.
+                </span>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Your Date Of Birth<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" (change)="calculateAge()" formControlName="dateOfBirth"
+                    id="dateOfBirth" name="dateOfBirth" [max]="maxDate" placeholder="Enter Your Date Of Birth" required>
+                <span *ngIf="formSubmitStatus && personalDetailFormGroup.get('dateOfBirth')?.errors?.['required']"
+                    class="text-danger">
+                    Date Of Birth is required.
+                </span>
+                <span *ngIf="futureDateError" class="text-danger">
+                    Date Of Birth should not be in future!
+                </span>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-sm-4" *ngIf="!futureDateError && personalDetailFormGroup.get('dateOfBirth')?.value">
+                <label for="" class="form-label">Your Age<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="age"
+                    [value]="personalDetailFormGroup.get('age')?.value" id="age" name="age"
+                    placeholder="Enter Your Age">
+                <span *ngIf="formSubmitStatus && personalDetailFormGroup.get('age')?.errors?.['required']"
+                    class="text-danger">
+                    Age is Required
+                </span>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Your Email<span class="text-danger">*</span></label>
+                <input type="email" class="form-control" formControlName="email" id="email" name="email"
+                    placeholder="Enter Your Email" required>
+                <span class="text-danger">
+                    <span *ngIf="formSubmitStatus && personalDetailFormGroup.get('email')?.errors?.['required']">
+                        Email is required.
+                    </span>
+                    <span
+                        *ngIf="personalDetailFormGroup.get('email')?.errors?.['email'] && (personalDetailFormGroup.get('email')?.dirty || personalDetailFormGroup.get('email')?.touched)">
+                        Invalid email format
+                    </span>
+                </span>
+
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Your Phone Number<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="phone" id="phone" name="phone"
+                    placeholder="Enter Your Phone Number" required>
+
+                <span class="text-danger">
+                    <span *ngIf="formSubmitStatus && personalDetailFormGroup.get('phone')?.errors?.['required']">
+                        Phone Number is required.
+                    </span>
+                    <span
+                        *ngIf="personalDetailFormGroup.get('phone')?.errors?.['max'] && (personalDetailFormGroup.get('phone')?.dirty || personalDetailFormGroup.get('phone')?.touched)">
+                        Phone Number Max value is 10.
+                    </span>
+                </span>
+
+            </div>
+        </div>
+
+
+        <div class="my-3 col-sm-12" formArrayName="familyDetailArray">
+            <div class="row">
+                <div class="col-sm-10 mt-3">
+                    <h4>Family Details</h4>
+                </div>
+                <div class="col-sm-2 text-end">
+                    <button type="button" (click)="addFamilyDetail()" class="btn btn-outline-primary"><i
+                            class="bi bi-plus-square"></i> Add More</button>
+                </div>
+            </div>
+            <hr>
+
+            <div class="" *ngFor="let control of familyDetailArray?.controls; let i = index" [formGroupName]="i">
+                <div class="row mt-4">
+                    <div class="row">
+                        <div class="col-sm-10 mt-4">
+                            {{i+1}}) Enter Your Family Member Details Below
+                        </div>
+                        <div *ngIf="i>0" class="col-sm-2 text-end mt-4">
+                            <button type="button" (click)="removeFormArrayItem(i)" class="btn btn-outline-danger"><i
+                                    class="bi bi-trash3-fill"></i> Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="row my-4">
+                        <div class="col-sm-4">
+                            <label for="" class="form-label">First Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" formControlName="familyFirstname"
+                                id="familyFirstname" name="familyFirstname" placeholder="Enter First name">
+                            <span class="text-danger"
+                                *ngIf="formSubmitStatus && control.get('familyFirstname')?.errors?.['required']">
+                                FirstName is required.
+                            </span>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="" class="form-label">Last Name<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" formControlName="familyLastname" id="familyLastname"
+                                name="familyLastname" placeholder="Enter Last name" required>
+                            <span *ngIf="formSubmitStatus && control.get('familyLastname')?.errors?.['required']"
+                                class="text-danger">
+                                LastName is required.
+                            </span>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="" class="form-label">Date Of Birth<span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" (change)="calculateFamilyAge(i)"
+                                formControlName="familyDateOfBirth" [max]="maxDate" id="familyDateOfBirth" name="familyDateOfBirth"
+                                placeholder="DOB" required>
+                            <span *ngIf="formSubmitStatus && control.get('familyDateOfBirth')?.errors?.['required']"
+                                class="text-danger">
+                                Date Of Birth is required.
+                            </span>
+                            <span *ngIf="futureDateErrorFamily" class="text-danger">
+                                Date Of Birth should not be in future!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row my-3">
+                        <div class="col-sm-4" *ngIf="!futureDateErrorFamily && control.get('familyDateOfBirth')?.value">
+                            <label for="" class="form-label">Age<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" formControlName="familyAge"
+                                [value]="control.get('familyAge')?.value" id="age" name="age" placeholder="Enter Age">
+                            <span *ngIf="formSubmitStatus && control.get('familyAge')?.errors?.['required']"
+                                class="text-danger">
+                                Age is Required
+                            </span>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="" class="form-label">Email<span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" formControlName="familyEmail" id="familyEmail"
+                                name="familyEmail" placeholder="Enter Email" required>
+                            <span class="text-danger">
+                                <span *ngIf="formSubmitStatus && control.get('familyEmail')?.errors?.['required']">
+                                    Email is required.
+                                </span>
+                                <span
+                                    *ngIf="control.get('familyEmail')?.errors?.['email'] && (control.get('familyEmail')?.dirty || control.get('familyEmail')?.touched)">
+                                    Invalid email format
+                                </span>
+                            </span>
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="" class="form-label">Phone Number<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" formControlName="familyPhone" id="familyPhone"
+                                name="familyPhone" placeholder="Enter Phone Number" required>
+                            <span class="text-danger">
+                                <span *ngIf="formSubmitStatus && control.get('familyPhone')?.errors?.['required']">
+                                    Phone Number is required.
+                                </span>
+                                <span
+                                    *ngIf="control?.get('familyPhone')?.errors?.['max'] && (control.get('familyPhone')?.dirty || control.get('familyPhone')?.touched)">
+                                    Phone Number Max value is 10.
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8">
+                <button type="reset" class="btn btn-danger"><i class="bi bi-x-circle"></i> Cancel</button>
+            </div>
+            <div class="col-sm-4 text-end">
+                <button type="submit" class="btn btn-outline-primary"><i class="bi bi-send-check"></i> Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>

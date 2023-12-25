@@ -1,1 +1,120 @@
-<p>reactive-form works!</p>
+<div class="col-sm-12 my-5 p-5 bg-primary-subtle">
+    <h3 class="text-center">Reactive Form</h3>
+    <form [formGroup]="userDetail" (ngSubmit)="onSubmit()">
+        <div class="row my-3">
+            <div class="col-sm-4">
+                <label for="" class="form-label">First Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="firstname" id="firstname" name="firstname"
+                    placeholder="First name">
+                <div *ngIf="
+                userDetail.get('firstname')?.dirty ||
+                userDetail.get('firstname')?.touched" class="text-danger">
+                    <div *ngIf="userDetail.get('firstname')?.errors?.['required']">
+                        FirstName is required.
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Last Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="lastname" id="lastname" name="lastname"
+                    placeholder="Last name" required>
+                <div class="text-danger">
+                    <div *ngIf="
+                    userDetail.get('lastname')?.dirty ||
+                    userDetail.get('lastname')?.touched">
+                    <div *ngIf="userDetail.get('lastname')?.errors?.['required']">
+                        LastName is required.
+                    </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Date Of Birth<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" formControlName="dateOfBirth" id="dateOfBirth"
+                    name="dateOfBirth" placeholder="DOB" required>
+                <div class="text-danger">
+                    <div *ngIf="
+                    userDetail.get('dateOfBirth')?.['dirty'] ||
+                    userDetail.get('dateOfBirth')?.['touched']">
+                        
+                        <div *ngIf="userDetail.get('dateOfBirth')?.errors?.['required']">
+                            Date Of Birth is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-sm-4">
+                <label for="" class="form-label">Age<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="age" id="age" name="age" placeholder="Age">
+                <div *ngIf="
+                userDetail.get('age')?.['dirty'] ||
+                userDetail.get('age')?.['touched']" class="text-danger">
+                    
+                    <div *ngIf="userDetail.get('age')?.errors?.['required']">
+                        Age is Required
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Email<span class="text-danger">*</span></label>
+                <input type="email" class="form-control" formControlName="email" id="email" name="email"
+                    placeholder="example@gmail.com" required>
+                <span *ngIf="
+                      (userDetail.get('email')?.dirty || userDetail.get('email')?.touched)" 
+                      class="text-danger">
+                    <span *ngIf="userDetail.get('email')?.errors?.['required']">Email is required.</span>
+                    <span *ngIf="userDetail.get('email')?.hasError('email')">Invalid email format</span>
+                </span>
+
+
+
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Phone<span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" formControlName="phone" id="phone" name="phone"
+                    placeholder="98XXXXXXXX" required>
+                <div *ngIf="
+                userDetail.get('phone')?.['dirty'] ||
+                userDetail.get('phone')?.['touched']" class="text-danger">
+                    <div *ngIf="userDetail.get('phone')?.errors?.['required']">
+                        Phone Number is required.
+                    </div>
+                    <div *ngIf="userDetail.get('phone')?.errors?.['max']">
+                        Phone Number Max value is 10.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <button type="submit" class="btn btn-outline-success">Submit</button>
+            </div>
+            <div class="col-sm-4 text-end">
+                <button type="reset" class="btn btn-outline-danger">Reset</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered border-primary mt-4">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Date Of Birth</th>
+                <th scope="col">Age</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <p>Form Status: {{ userDetail.status }}</p>
+</div>
+
+
+

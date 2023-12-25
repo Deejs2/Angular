@@ -1,1 +1,100 @@
-<p>template-driven-form works!</p>
+<div class="col-sm-12 my-5 p-5 bg-dark-subtle">
+    <h3>Template Driven Form</h3>
+    <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+        <div class="row my-3">
+            <div class="col-sm-4">
+                <label for="" class="form-label">First Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" #firstname="ngModel" id="firstname" name="firstname" [(ngModel)]="model.firstname" placeholder="First name" required>
+                <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="text-danger">
+                    <div *ngIf="firstname.errors?.['required']">
+                      FirstName is required.
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Last Name<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" #lastname="ngModel" id="lastname" name="lastname" [(ngModel)]="model.lastname" placeholder="Last name" required>
+                <div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)" class="text-danger">
+                    <div *ngIf="lastname.errors?.['required']">
+                      LastName is required.
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Date Of Birth<span class="text-danger">*</span></label>
+                <input type="date" class="form-control" #dateOfBirth="ngModel" id="dateOfBirth" name="dateOfBirth" (input)="calculateAge()" [(ngModel)]="model.dateOfBirth" placeholder="DOB" required>
+                <div *ngIf="dateOfBirth.invalid && (dateOfBirth.dirty || dateOfBirth.touched)" class="text-danger">
+                    <div *ngIf="dateOfBirth.errors?.['required']">
+                      Date Of Birth is required.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col-sm-4" *ngIf="model.dateOfBirth">
+                <label for="" class="form-label">Age<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="age" name="age" [(ngModel)]="model.age" placeholder="Age" [disabled]="model.dateOfBirth">
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Email<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{3}" id="email" name="email" [(ngModel)]="model.email" #email="ngModel" placeholder="example@gmail.com" required>
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                    <div *ngIf="email.errors?.['required']">
+                      Email is required.
+                    </div>
+                    <div *ngIf="email.errors?.['pattern']">
+                      Invalid email format
+                    </div>
+                  </div>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Phone<span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" #phone="ngModel" id="phone" name="phone" [(ngModel)]="model.phone" placeholder="98XXXXXXXX" pattern="[0-9]{10}" minlength="10" maxlength="10" required>
+                <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger">
+    
+                    <div *ngIf="phone.errors?.['required']">
+                      Phone Number is required.
+                    </div>
+                    <div *ngIf="phone.errors?.['pattern']">
+                        Phone Number should contain only Numbers and maxlength should be 10
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <button type="submit" [disabled]="myForm.invalid" class="btn btn-outline-success">Submit</button>
+            </div>
+            <div class="col-sm-4 text-end">
+                <button type="reset" class="btn btn-outline-danger">Reset</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-sm-12 mt-5">
+        <table class="table table-bordered border-primary">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Date Of Birth</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of userDetailList; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{data.firstname}}</td>
+                    <td>{{data.lastname}}</td>
+                    <td>{{data.dateOfBirth}}</td>
+                    <td>{{data.age}}</td>
+                    <td>{{data.email}}</td>
+                    <td>{{data.phone}}</td>
+                </tr>
+              </tbody>
+          </table>
+    </div>
+</div>
