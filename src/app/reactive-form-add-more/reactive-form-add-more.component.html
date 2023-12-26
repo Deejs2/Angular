@@ -24,7 +24,7 @@
             </div>
             <div class="col-sm-4">
                 <label for="" class="form-label">Your Date Of Birth<span class="text-danger">*</span></label>
-                <input type="date" class="form-control" (change)="calculateAge()" formControlName="dateOfBirth"
+                <input type="date" class="form-control" (change)="calculateAge(personalDetailFormGroup.get('dateOfBirth')?.value)" formControlName="dateOfBirth"
                     id="dateOfBirth" name="dateOfBirth" [max]="maxDate" placeholder="Enter Your Date Of Birth" required>
                 <span *ngIf="formSubmitStatus && personalDetailFormGroup.get('dateOfBirth')?.errors?.['required']"
                     class="text-danger">
