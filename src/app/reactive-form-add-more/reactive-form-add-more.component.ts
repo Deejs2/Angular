@@ -4,21 +4,23 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { AgeFormatterPipe } from '../pipes/age-formatter.pipe';
 import { SharedService } from '../services/shared.service';
 import { HttpHandlerService } from '../services/http-handler.service';
+import { NepaliNumberPipe } from '../pipes/nepali-number.pipe';
 
 @Component({
   selector: 'app-reactive-form-add-more',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgFor, DatePipe, AgeFormatterPipe],
-  providers: [DatePipe, SharedService, HttpHandlerService],
+  imports: [ReactiveFormsModule, NgIf, NgFor, DatePipe, AgeFormatterPipe, NepaliNumberPipe],
+  providers: [DatePipe,NepaliNumberPipe, SharedService, HttpHandlerService, AgeFormatterPipe],
   templateUrl: './reactive-form-add-more.component.html',
   styleUrl: './reactive-form-add-more.component.scss'
 
 })
-export class ReactiveFormAddMoreComponent {
+export class ReactiveFormAddMoreComponent implements OnInit{
+
+  formData : any;
+  tableStatus: boolean = false;
 
   formSubmitStatus : boolean = false;
-  futureDateError : boolean = false;
-  futureDateErrorFamily : boolean = false;
 
   maxDate : any 
 
@@ -29,9 +31,9 @@ export class ReactiveFormAddMoreComponent {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       dateOfBirth: ['', Validators.required],
-      age: [{value: '', disabled: true}, Validators.required],
+      age: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required, Validators.max(10000000000)],
+      phone: ['', [Validators.required, Validators.max(10000000000)]],
       familyDetailArray: this.fb.array([])
     });
 
@@ -40,6 +42,10 @@ export class ReactiveFormAddMoreComponent {
      
 
     this.maxDate = date.transform(new Date(),'yyyy-MM-dd');
+  }
+
+  ngOnInit(): void {
+    
   }
 
   // getter for familyDetailArray
@@ -52,7 +58,7 @@ export class ReactiveFormAddMoreComponent {
       familyFirstname:['', [Validators.required]],
       familyLastname:['', [Validators.required]],
       familyDateOfBirth:['', [Validators.required]],
-      familyAge:[{value: '', disabled:true}, [Validators.required]],
+      familyAge:['', [Validators.required]],
       familyEmail:['', [Validators.required, Validators.email]],
       familyPhone:['', [Validators.required, Validators.max(10000000000)]]
     }));
@@ -73,18 +79,25 @@ export class ReactiveFormAddMoreComponent {
     //   console.log(this.personalDetailFormGroup.value);
     // }
 
+      // Enable the 'age' control temporarily
+      this.personalDetailFormGroup.get('age')?.enable();
+
     console.log(this.personalDetailFormGroup.value);
 
-    this.httpService.addPersonalDetail(this.personalDetailFormGroup.value).subscribe(
-      (response) => {
-        // Handle the API response
-        // console.log('API Response:', response);
-      },
-      (error) => {
-        // Handle API error
-        // console.error('API Error:', error);
-      }
-    );
+    if(this.personalDetailFormGroup.valid){
+      this.httpService.addPersonalDetail(this.personalDetailFormGroup.value).subscribe(
+        (response: any) => {
+          // Handle the API response
+          // console.log('API Response:', response);
+          console.log("Form Value Submitted by API");
+        },
+        (error: any) => {
+          // Handle API error
+          // console.error('API Error:', error);
+          console.log("Error while submitting");
+        }
+      );
+    }
 
   }
 
@@ -153,6 +166,21 @@ export class ReactiveFormAddMoreComponent {
       
   //   }
   // }
+
+  showUserDetail(){
+    this.httpService.getPersonalDetail().subscribe(
+      (result: any) => {
+        this.formData = result;
+      },
+      (error: any) => {
+        console.error('Error fetching data:', error);
+      }
+    );
+    this.tableStatus=true;
+    console.log(this.formData);
+  }
+
+
 }
 
 

@@ -24,23 +24,22 @@
             </div>
             <div class="col-sm-4">
                 <label for="" class="form-label">Your Date Of Birth<span class="text-danger">*</span></label>
-                <input type="date" class="form-control" (change)="calculateAge(personalDetailFormGroup.get('dateOfBirth')?.value)" formControlName="dateOfBirth"
-                    id="dateOfBirth" name="dateOfBirth" [max]="maxDate" placeholder="Enter Your Date Of Birth" required>
+                <input type="date" class="form-control"
+                    (change)="calculateAge(personalDetailFormGroup.get('dateOfBirth')?.value)"
+                    formControlName="dateOfBirth" id="dateOfBirth" name="dateOfBirth" [max]="maxDate"
+                    placeholder="Enter Your Date Of Birth" required>
                 <span *ngIf="formSubmitStatus && personalDetailFormGroup.get('dateOfBirth')?.errors?.['required']"
                     class="text-danger">
                     Date Of Birth is required.
                 </span>
-                <span *ngIf="futureDateError" class="text-danger">
-                    Date Of Birth should not be in future!
-                </span>
             </div>
         </div>
         <div class="row my-3">
-            <div class="col-sm-4" *ngIf="!futureDateError && personalDetailFormGroup.get('dateOfBirth')?.value">
+            <div class="col-sm-4" *ngIf="personalDetailFormGroup.get('dateOfBirth')?.value">
                 <label for="" class="form-label">Your Age<span class="text-danger">*</span></label>
                 <input type="text" class="form-control" formControlName="age"
-                    [value]="personalDetailFormGroup.get('age')?.value" id="age" name="age"
-                    placeholder="Enter Your Age">
+                    [value]="personalDetailFormGroup.get('age')?.value" id="age" name="age" placeholder="Enter Your Age"
+                    readonly>
                 <span *ngIf="formSubmitStatus && personalDetailFormGroup.get('age')?.errors?.['required']"
                     class="text-danger">
                     Age is Required
@@ -71,7 +70,7 @@
                         Phone Number is required.
                     </span>
                     <span
-                        *ngIf="personalDetailFormGroup.get('phone')?.errors?.['max'] && (personalDetailFormGroup.get('phone')?.dirty || personalDetailFormGroup.get('phone')?.touched)">
+                        *ngIf="personalDetailFormGroup?.get('phone')?.errors?.['max'] && (personalDetailFormGroup.get('phone')?.dirty || personalDetailFormGroup.get('phone')?.touched)">
                         Phone Number Max value is 10.
                     </span>
                 </span>
@@ -126,22 +125,20 @@
                         <div class="col-sm-4">
                             <label for="" class="form-label">Date Of Birth<span class="text-danger">*</span></label>
                             <input type="date" class="form-control" (change)="calculateFamilyAge(i)"
-                                formControlName="familyDateOfBirth" [max]="maxDate" id="familyDateOfBirth" name="familyDateOfBirth"
-                                placeholder="DOB" required>
+                                formControlName="familyDateOfBirth" [max]="maxDate" id="familyDateOfBirth"
+                                name="familyDateOfBirth" placeholder="DOB" required>
                             <span *ngIf="formSubmitStatus && control.get('familyDateOfBirth')?.errors?.['required']"
                                 class="text-danger">
                                 Date Of Birth is required.
                             </span>
-                            <span *ngIf="futureDateErrorFamily" class="text-danger">
-                                Date Of Birth should not be in future!
-                            </span>
                         </div>
                     </div>
                     <div class="row my-3">
-                        <div class="col-sm-4" *ngIf="!futureDateErrorFamily && control.get('familyDateOfBirth')?.value">
+                        <div class="col-sm-4" *ngIf="control.get('familyDateOfBirth')?.value">
                             <label for="" class="form-label">Age<span class="text-danger">*</span></label>
                             <input type="text" class="form-control" formControlName="familyAge"
-                                [value]="control.get('familyAge')?.value" id="age" name="age" placeholder="Enter Age">
+                                [value]="control.get('familyAge')?.value" id="age" name="age" placeholder="Enter Age"
+                                readonly>
                             <span *ngIf="formSubmitStatus && control.get('familyAge')?.errors?.['required']"
                                 class="text-danger">
                                 Age is Required
@@ -190,5 +187,62 @@
             </div>
         </div>
     </form>
+
+
+    <div class="mt-5">
+        <button (click)="showUserDetail()" class="btn btn-outline-success" type="button">Show Table</button>
+
+        <table *ngIf="tableStatus" class="table table-striped table-bordered">
+            <thead>
+                <th>#</th>
+                <th>Personal ID</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>DateOfBirth</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </thead>
+            <tbody *ngFor="let data of formData; let i=index">
+                <tr>
+                    <td>{{i+1}}</td>
+                    <td>{{data.id}}</td>
+                    <td>{{data.firstname}}</td>
+                    <td>{{data.lastname}}</td>
+                    <td>{{data.dateOfBirth}}</td>
+                    <td>{{data.age | ageFormatter}}</td>
+                    <td>{{data.email}}</td>
+                    <td>{{data.phone}}</td>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <table class="table mb-0">
+                            <tr>
+                                <th>#</th>
+                                <th>Family ID</th>
+                                <th>Family FirstName</th>
+                                <th>Family LastName</th>
+                                <th>Family DateOfBirth</th>
+                                <th>Family Age</th>
+                                <th>Family Email</th>
+                                <th>Family Phone</th>
+                            </tr>
+                            <tr *ngFor="let fdata of data.familyDetailArray; let i=index">
+                                <td>{{i | nepaliNumber}}</td>
+                                <td>{{fdata.id}}</td>
+                                <td>{{fdata.familyFirstname}}</td>
+                                <td>{{fdata.familyLastname}}</td>
+                                <td>{{fdata.familyDateOfBirth}}</td>
+                                <td>{{fdata.familyAge | ageFormatter}}</td>
+                                <td>{{fdata.familyEmail}}</td>
+                                <td>{{fdata.familyPhone}}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
 
 </div>

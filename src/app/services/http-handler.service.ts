@@ -6,11 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HttpHandlerService {
-  private addUrl="localhost:8080/personalDetail/save";
+  private baseUrl="http://localhost:8080/personalDetail/save";
+  private getUrl="http://localhost:8080/personalDetail/fetch";
 
   constructor(private http: HttpClient) { }
 
   addPersonalDetail(data : any): Observable<any>{
-    return this.http.post<any>(this.addUrl, data);
+    return this.http.post<any>(this.baseUrl, data);
+  }
+
+  getPersonalDetail(): Observable<any>{
+    return this.http.get<any>(this.getUrl);
   }
 }

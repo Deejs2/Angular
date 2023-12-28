@@ -5,7 +5,7 @@ import { HeaderComponent } from './header/header.component';
 import { TemplateDrivenFormComponent } from './template-driven-form/template-driven-form.component';
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { ReactiveFormAddMoreComponent } from './reactive-form-add-more/reactive-form-add-more.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, withFetch } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
