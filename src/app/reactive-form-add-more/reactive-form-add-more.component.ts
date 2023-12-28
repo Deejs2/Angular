@@ -17,9 +17,6 @@ import { NepaliNumberPipe } from '../pipes/nepali-number.pipe';
 })
 export class ReactiveFormAddMoreComponent implements OnInit{
 
-  formData : any;
-  tableStatus: boolean = false;
-
   formSubmitStatus : boolean = false;
 
   maxDate : any 
@@ -167,18 +164,7 @@ export class ReactiveFormAddMoreComponent implements OnInit{
   //   }
   // }
 
-  showUserDetail(){
-    this.httpService.getPersonalDetail().subscribe(
-      (result: any) => {
-        this.formData = result;
-      },
-      (error: any) => {
-        console.error('Error fetching data:', error);
-      }
-    );
-    this.tableStatus=true;
-    console.log(this.formData);
-  }
+  
 
 
 }

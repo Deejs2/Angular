@@ -1,0 +1,63 @@
+<h3 class="mt-5">User Form Details</h3>
+<div class="mt-5">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <th>#</th>
+            <th>Personal ID</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>DateOfBirth</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Action</th>
+        </thead>
+        <tbody *ngFor="let data of formData; let i=index">
+            <tr>
+                <td>{{i+1}}</td>
+                <td>{{data.id}}</td>
+                <td>{{data.firstname}}</td>
+                <td>{{data.lastname}}</td>
+                <td>{{data.dateOfBirth | date}}</td>
+                <td>{{data.age | ageFormatter}}</td>
+                <td>{{data.email}}</td>
+                <td>{{data.phone}}</td>
+                <td>
+                  <nav>
+                    <ul>
+                      <li><a routerLink="/app-reactive-form-add-more-edit" routerLinkActive="active" ariaCurrentWhenActive="page">Edit</a></li>
+                      <li><a routerLink="/second-component" routerLinkActive="active" ariaCurrentWhenActive="page">Delete</a></li>
+                    </ul>
+                  </nav>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="9">
+                    <table class="table mb-0">
+                        <tr>
+                            <th>#</th>
+                            <th>Family ID</th>
+                            <th>Family FirstName</th>
+                            <th>Family LastName</th>
+                            <th>Family DateOfBirth</th>
+                            <th>Family Age</th>
+                            <th>Family Email</th>
+                            <th>Family Phone</th>
+                        </tr>
+                        <tr *ngFor="let fdata of data.familyDetailArray; let i=index">
+                            <td>{{i | nepaliNumber}}</td>
+                            <td>{{fdata.id}}</td>
+                            <td>{{fdata.familyFirstname}}</td>
+                            <td>{{fdata.familyLastname}}</td>
+                            <td>{{fdata.familyDateOfBirth | date}}</td>
+                            <td>{{fdata.familyAge | ageFormatter}}</td>
+                            <td>{{fdata.familyEmail}}</td>
+                            <td>{{fdata.familyPhone}}</td>
+                            </tr>
+                    </table>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
