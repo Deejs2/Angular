@@ -6,11 +6,12 @@ import { TemplateDrivenFormComponent } from './template-driven-form/template-dri
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { ReactiveFormAddMoreComponent } from './reactive-form-add-more/reactive-form-add-more.component';
 import { HttpClientModule, withFetch } from '@angular/common/http';
+import { BaseLayoutComponent } from './base-layout/base-layout.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HeaderComponent, TemplateDrivenFormComponent, ReactiveFormComponent, ReactiveFormAddMoreComponent,HttpClientModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, HeaderComponent, TemplateDrivenFormComponent, ReactiveFormComponent, ReactiveFormAddMoreComponent,HttpClientModule, RouterOutlet, RouterLink, RouterLinkActive, BaseLayoutComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
