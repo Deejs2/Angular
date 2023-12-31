@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormAddMoreComponent } from '../reactive-form-add-more/reactive-form-add-more.component';
 import { HttpHandlerService } from '../services/http-handler.service';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -14,11 +14,14 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   templateUrl: './reactive-form-add-more-view.component.html',
   styleUrl: './reactive-form-add-more-view.component.scss'
 })
-export class ReactiveFormAddMoreViewComponent {
+export class ReactiveFormAddMoreViewComponent implements OnInit{
+  page = "All Personal Details";
 
   formData : any;
 
-  constructor(private httpService: HttpHandlerService, private date:DatePipe, private ageFormatter: AgeFormatterPipe, private nepaliNumber: NepaliNumberPipe){
+  constructor(private httpService: HttpHandlerService, private date:DatePipe, private ageFormatter: AgeFormatterPipe, private nepaliNumber: NepaliNumberPipe){ }
+
+  ngOnInit(): void {
     this.httpService.getPersonalDetail().subscribe(
       (result: any) => {
         this.formData = result;

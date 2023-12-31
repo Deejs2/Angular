@@ -17,13 +17,19 @@ import { NepaliNumberPipe } from '../pipes/nepali-number.pipe';
 })
 export class ReactiveFormAddMoreComponent implements OnInit{
 
+  page = 'Add Personal Details';
+
   formSubmitStatus : boolean = false;
 
   maxDate : any 
 
   personalDetailFormGroup: FormGroup = new FormGroup<any>({});
 
-  constructor(private fb: FormBuilder,date : DatePipe, private sharedService: SharedService, private httpService: HttpHandlerService) {
+  constructor(private fb: FormBuilder,private date : DatePipe, private sharedService: SharedService, private httpService: HttpHandlerService) {
+    }
+
+  ngOnInit(): void {
+
     this.personalDetailFormGroup = this.fb.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -38,10 +44,8 @@ export class ReactiveFormAddMoreComponent implements OnInit{
 
      
 
-    this.maxDate = date.transform(new Date(),'yyyy-MM-dd');
-  }
-
-  ngOnInit(): void {
+    this.maxDate = this.date.transform(new Date(),'yyyy-MM-dd');
+  
     
   }
 
@@ -71,10 +75,6 @@ export class ReactiveFormAddMoreComponent implements OnInit{
   onSubmitForm() {
 
     this.formSubmitStatus = true;
-  
-    // if(this.personalDetailFormGroup.valid){
-    //   console.log(this.personalDetailFormGroup.value);
-    // }
 
       // Enable the 'age' control temporarily
       this.personalDetailFormGroup.get('age')?.enable();
@@ -102,32 +102,7 @@ export class ReactiveFormAddMoreComponent implements OnInit{
     let age = this.sharedService.ageCalculation(dob);
     this.personalDetailFormGroup.get("age")?.setValue(age);
   }
-  
-  // calculateAge(): void {
-  //   const dateOfBirthControl = this.personalDetailFormGroup.get('dateOfBirth');
 
-  //   if (dateOfBirthControl && dateOfBirthControl.value) {
-  //     const birthDate = new Date(dateOfBirthControl.value);
-  //     const today = new Date();
-  //     let ageDiff = today.getFullYear() - birthDate.getFullYear();
-
-  //     // Check if the birthday has occurred this year
-  //     if (
-  //       today.getMonth() < birthDate.getMonth() ||
-  //       (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
-  //     ) {
-  //       ageDiff -= 1;
-  //     }
-
-  //     if(ageDiff>=0){
-  //       this.personalDetailFormGroup.get('age')?.setValue(ageDiff.toString());
-  //       this.futureDateError=false;
-  //     }else{
-  //       this.personalDetailFormGroup.get('age')?.setValue('0'.toString());
-  //       this.futureDateError=true;
-  //     }
-  //   }
-  // }
 
 
   calculateFamilyAge(index : number): void {
@@ -135,37 +110,6 @@ export class ReactiveFormAddMoreComponent implements OnInit{
     let age = this.sharedService.ageCalculation(dateOfBirthControl);
     this.familyDetailArray.at(index).get('familyAge')?.setValue(age);
   }
-
-  // calculateFamilyAge(index : number): void {
-  //   const dateOfBirthControl = this.familyDetailArray.at(index).get('familyDateOfBirth');
-
-  //   if (dateOfBirthControl && dateOfBirthControl.value) {
-  //     const birthDate = new Date(dateOfBirthControl.value);
-  //     const today = new Date();
-  //     let ageDiff = today.getFullYear() - birthDate.getFullYear();
-
-  //     // Check if the birthday has occurred this year
-  //     if (
-  //       today.getMonth() < birthDate.getMonth() ||
-  //       (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())
-  //     ) {
-  //       ageDiff -= 1;
-  //     }
-
-  //     if(ageDiff>=0){
-  //       this.familyDetailArray.at(index).get('familyAge')?.setValue(ageDiff.toString());
-  //       this.futureDateError=false;
-  //     }else{
-  //       this.familyDetailArray.at(index).get('familyAge')?.setValue('0'.toString());
-  //       this.futureDateErrorFamily=true;
-  //     }
-
-      
-  //   }
-  // }
-
-  
-
 
 }
 
