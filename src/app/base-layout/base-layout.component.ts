@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, mergeApplicationConfig } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   selector: 'app-base-layout',
   standalone: true,
   imports: [HeaderComponent, SidebarComponent, RouterOutlet, RouterLink, RouterLinkActive, ReactiveFormAddMoreComponent, ReactiveFormAddMoreViewComponent, HttpClientModule, ReactiveFormsModule],
+  providers:[HttpClientModule, HttpHandlerService],
   templateUrl: './base-layout.component.html',
   styleUrl: './base-layout.component.scss'
 })
