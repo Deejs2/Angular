@@ -3,7 +3,7 @@ import { HttpHandlerService } from '../services/http-handler.service';
 import { response } from 'express';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { error } from 'console';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,17 +14,20 @@ import { error } from 'console';
 })
 export class DashboardComponent {
   page="Dashboard"
+  user=""
 
   addressData: any 
 
   addressDetailFormGroup: FormGroup = new FormGroup<any>({});
 
-  constructor(private httpService: HttpHandlerService, private fb: FormBuilder) {
+  constructor(private httpService: HttpHandlerService, private fb: FormBuilder, private sharedService: SharedService) {
     this.addressDetailFormGroup = this.fb.group({
       country: '',
       state: '',
       street: ''
     })
+
+    this.user = this.sharedService.user;
   }
 
   onSubmitAddress(){

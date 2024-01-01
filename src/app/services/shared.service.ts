@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SharedService {
-
+  user="admin@app.com"
   constructor() { }
 
   ageCalculation(dob:any): number {

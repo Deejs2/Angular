@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,5 +10,8 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent {
-  user = "admin@app.com"
+  user:string=""
+  constructor(private sharedService: SharedService){
+    this.user = this.sharedService.user
+  }
 }

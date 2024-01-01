@@ -1,8 +1,38 @@
-<div class="container-fluid px-4">
+<div class="container-fluid px-4 pb-4">
     <h1 class="mt-4">{{page}}</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">{{page}}</li>
     </ol>
 
-    <h3>Personal Details Of ID : {{id}}</h3>
+
+    <div class="">
+        <h4><i class="fa-regular fa-address-card"></i> Personal Details</h4>
+        <div class="container text-left">
+            <div class="mx-4 row row-cols-2 pt-3">
+              <div class="col-sm-12 fs-1"><i class="fa-regular fa-circle-user"></i></div>
+              <div class="col p-1">Name : {{'' | fullname:formData.firstname:formData.lastname}}</div>
+              <div class="col p-1">Date Of Birth : {{formData.dateOfBirth | date}}</div>
+              <div class="col p-1">Age : {{formData.age | ageFormatter}}</div>
+              <div class="col p-1">Email : {{formData.email}}</div>
+              <div class="col p-1">Phone : {{formData.phone}}</div>
+            </div>
+        </div>
+        <div class="container mt-4 mx-3">
+            <h4><i class="fa-solid fa-people-group"></i> Family Details</h4>
+            <div class="card-group pt-3">
+                <div class="card" *ngFor="let data of formData.familyDetailArray">
+                    <div class="fs-1 px-3"><i class="fa-solid fa-user-large"></i></div>
+                <div class="card-body">
+                    <h5 class="card-title">{{data.familyFirstname}}</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">DOB : {{data.familyDateOfBirth | date}}</li>
+                        <li class="list-group-item">Age : {{data.familyAge | ageFormatter}}</li>
+                        <li class="list-group-item">Email : {{data.familyEmail}}</li>
+                        <li class="list-group-item">Phone : {{data.familyPhone}}</li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

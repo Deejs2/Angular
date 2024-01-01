@@ -11,13 +11,6 @@ export const routes: Routes = [
     {path:'app-reactive-form-add-view', component: ReactiveFormAddMoreViewComponent},
     {path:'dashboard', component: DashboardComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    {path: 'app-reactive-form-view-by-id/:id', component: ReactiveFormViewByIdComponent}
+    {path: 'app-reactive-form-view-by-id/:id', component: ReactiveFormViewByIdComponent},
+    {path: 'app-reactive-form-view/:id', component: ReactiveFormAddMoreViewComponent}
 ];
-
-// @NgModule({
-//     imports: [RouterModule.forRoot(routes)],
-//     exports: [RouterModule]
-// })
-
-
-// export class AppRoutingModule{}

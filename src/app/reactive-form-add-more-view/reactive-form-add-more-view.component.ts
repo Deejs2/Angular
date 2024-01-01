@@ -4,7 +4,9 @@ import { HttpHandlerService } from '../services/http-handler.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AgeFormatterPipe } from '../pipes/age-formatter.pipe';
 import { NepaliNumberPipe } from '../pipes/nepali-number.pipe';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { response } from 'express';
+import { error } from 'console';
 
 @Component({
   selector: 'app-reactive-form-add-more-view',
@@ -18,23 +20,44 @@ export class ReactiveFormAddMoreViewComponent implements OnInit{
   page = "All Personal Details";
 
   formData : any;
+  formDataStatus : boolean = false
+  id: number = 0
 
-  constructor(private httpService: HttpHandlerService, private date:DatePipe, private ageFormatter: AgeFormatterPipe, private nepaliNumber: NepaliNumberPipe){ }
+  constructor(private httpService: HttpHandlerService, private date:DatePipe, private router: ActivatedRoute, private ageFormatter: AgeFormatterPipe, private nepaliNumber: NepaliNumberPipe){ }
 
   ngOnInit(): void {
     this.httpService.getPersonalDetail().subscribe(
       (result: any) => {
         this.formData = result;
+        this.formDataStatus = true;
       },
       (error: any) => {
-        console.error('Error fetching data:', error);
+        if(this.formDataStatus==false){
+          console.log("No Records Found!");
+        }
       }
     );
-    if(this.formData){
-      console.log(this.formData);
-    }else{
-      console.log("No Records Found!");
-    }
+
+    
+
+    this.router.params.subscribe(
+      (response: any) => {
+        this.id = response.id;
+        console.log(this.id)
+      },
+      (error: any) => {
+        console.log("Error while getting id")
+      }
+    )
+    
+    this.httpService.removePersonalDetailById(this.id).subscribe(
+      (response: any) => {console.log("ID : "+this.id+" deleted Successfully!")}, 
+      (error: any) => {console.log("Error while deleting ID")}
+    )
+
+
+
+    
 
   }
 
