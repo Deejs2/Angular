@@ -6,7 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReactiveFormViewByIdComponent } from './reactive-form-view-by-id/reactive-form-view-by-id.component';
 
 export const routes: Routes = [
-    {path:'app-reactive-form-add-more-edit', component: ReactiveFormAddMoreEditComponent},
+    {path:'app-reactive-form-add-more-edit/:id', component: ReactiveFormAddMoreEditComponent},
     {path:'app-reactive-form-add-more', component: ReactiveFormAddMoreComponent},
     {path:'app-reactive-form-add-view', component: ReactiveFormAddMoreViewComponent},
     {path:'dashboard', component: DashboardComponent},

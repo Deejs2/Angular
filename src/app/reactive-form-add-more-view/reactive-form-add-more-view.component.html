@@ -1,4 +1,9 @@
 <div class="container-fluid px-4">
+    <div class="" *ngIf="idStatus">
+        <div class="alert alert-success" role="alert">
+            <i class="fa-solid fa-check"></i> Form Deleted with {{id}} Succesfuly!!
+        </div>
+    </div>
     <h1 class="mt-4">{{page}}</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">{{page}}</li>
@@ -35,7 +40,7 @@
                         <td>
                             <ul class="nav">
                                 <li class="nav-item"><a class="nav-link" routerLink="/app-reactive-form-view-by-id/{{data.id}}" routerLinkActive="active" ariaCurrentWhenActive="page"><i class="fa-regular fa-eye"></i></a></li>
-                                <li class="nav-item"><a class="nav-link" routerLink="/app-reactive-form-add-more-edit" routerLinkActive="active" ariaCurrentWhenActive="page"><i class="fa-regular fa-pen-to-square"></i></a></li>
+                                <li class="nav-item"><a class="nav-link" routerLink="/app-reactive-form-add-more-edit/{{data.id}}" routerLinkActive="active" ariaCurrentWhenActive="page"><i class="fa-regular fa-pen-to-square"></i></a></li>
                                 <li class="nav-item"><a class="nav-link" routerLink="/app-reactive-form-view/{{data.id}}" routerLinkActive="active" ariaCurrentWhenActive="page"><i class="fa-solid fa-trash"></i></a></li>
                               </ul>
                         </td>

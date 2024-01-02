@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedService } from '../services/shared.service';
 import { HttpHandlerService } from '../services/http-handler.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { response } from 'express';
 
 @Component({
   selector: 'app-reactive-form-add-more-edit',
@@ -14,14 +16,17 @@ import { HttpHandlerService } from '../services/http-handler.service';
 })
 export class ReactiveFormAddMoreEditComponent{
   page = "Update Reactive Form";
+  id:number=0
 
   formSubmitStatus : boolean = false;
 
   maxDate : any 
 
+  formData : any
+
   personalDetailFormGroup: FormGroup = new FormGroup<any>({});
 
-  constructor(private fb: FormBuilder,private date : DatePipe, private sharedService: SharedService, private httpService: HttpHandlerService) {
+  constructor(private fb: FormBuilder,private date : DatePipe, private sharedService: SharedService, private router: ActivatedRoute ,private httpService: HttpHandlerService) {
     }
 
   ngOnInit(): void {
@@ -41,8 +46,20 @@ export class ReactiveFormAddMoreEditComponent{
      
 
     this.maxDate = this.date.transform(new Date(),'yyyy-MM-dd');
+
+    this.router.params.subscribe(
+      (response: any) => {this.id=response.id},
+      (error: any) => {}
+    )
   
-    
+    this.httpService.getPersonalDetailById(this.id).subscribe(
+      (response: any) => {this.personalDetailFormGroup.patchValue(response)
+      console.log(response)}
+    )
+
+    this.personalDetailFormGroup.patchValue({
+      dateOfBirth: this.maxDate
+    })
   }
 
   // getter for familyDetailArray
@@ -71,9 +88,6 @@ export class ReactiveFormAddMoreEditComponent{
   onSubmitForm() {
 
     this.formSubmitStatus = true;
-
-      // Enable the 'age' control temporarily
-      this.personalDetailFormGroup.get('age')?.enable();
 
     console.log(this.personalDetailFormGroup.value);
 
