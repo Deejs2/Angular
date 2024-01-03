@@ -7,11 +7,12 @@ import { ReactiveFormAddMoreViewComponent } from '../reactive-form-add-more-view
 import { HttpHandlerService } from '../services/http-handler.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PersonalDetailFormComponent } from '../personal-detail-form/personal-detail-form.component';
 
 @Component({
   selector: 'app-base-layout',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, RouterOutlet, RouterLink, RouterLinkActive, ReactiveFormAddMoreComponent, ReactiveFormAddMoreViewComponent, HttpClientModule, ReactiveFormsModule],
+  imports: [HeaderComponent, SidebarComponent, RouterOutlet, RouterLink, RouterLinkActive, ReactiveFormAddMoreComponent, ReactiveFormAddMoreViewComponent, HttpClientModule, ReactiveFormsModule, PersonalDetailFormComponent],
   providers:[HttpClientModule, HttpHandlerService],
   templateUrl: './base-layout.component.html',
   styleUrl: './base-layout.component.scss'

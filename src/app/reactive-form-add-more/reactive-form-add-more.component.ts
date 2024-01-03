@@ -1,4 +1,4 @@
-import { DatePipe, NgFor, NgIf } from '@angular/common';
+import { DatePipe, Location, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit, Pipe } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AgeFormatterPipe } from '../pipes/age-formatter.pipe';
@@ -17,16 +17,19 @@ import { NepaliNumberPipe } from '../pipes/nepali-number.pipe';
 })
 export class ReactiveFormAddMoreComponent implements OnInit{
 
-  page = 'Add Personal Details';
-
   formSubmitStatus : boolean = false;
 
   maxDate : any 
 
   personalDetailFormGroup: FormGroup = new FormGroup<any>({});
 
-  constructor(private fb: FormBuilder,private date : DatePipe, private sharedService: SharedService, private httpService: HttpHandlerService) {
-    }
+  constructor(
+    private fb: FormBuilder,
+    private date : DatePipe, 
+    private sharedService: SharedService, 
+    private httpService: HttpHandlerService,
+    private location: Location
+    ) {}
 
   ngOnInit(): void {
 
@@ -72,12 +75,14 @@ export class ReactiveFormAddMoreComponent implements OnInit{
     }
   }
 
+  onClickCancel(){
+    this.location.back();
+  }
+
   onSubmitForm() {
 
     this.formSubmitStatus = true;
 
-      // Enable the 'age' control temporarily
-      this.personalDetailFormGroup.get('age')?.enable();
 
     console.log(this.personalDetailFormGroup.value);
 
@@ -87,6 +92,7 @@ export class ReactiveFormAddMoreComponent implements OnInit{
           // Handle the API response
           // console.log('API Response:', response);
           console.log("Form Value Submitted by API");
+          this.onClickCancel();
         },
         (error: any) => {
           // Handle API error
@@ -94,7 +100,10 @@ export class ReactiveFormAddMoreComponent implements OnInit{
           console.log("Error while submitting");
         }
       );
+      
     }
+
+    
 
   }
 
@@ -110,6 +119,9 @@ export class ReactiveFormAddMoreComponent implements OnInit{
     let age = this.sharedService.ageCalculation(dateOfBirthControl);
     this.familyDetailArray.at(index).get('familyAge')?.setValue(age);
   }
+
+
+  
 
 }
 

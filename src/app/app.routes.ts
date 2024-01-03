@@ -4,13 +4,34 @@ import { ReactiveFormAddMoreComponent } from './reactive-form-add-more/reactive-
 import { ReactiveFormAddMoreViewComponent } from './reactive-form-add-more-view/reactive-form-add-more-view.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReactiveFormViewByIdComponent } from './reactive-form-view-by-id/reactive-form-view-by-id.component';
+import { PersonalDetailFormComponent } from './personal-detail-form/personal-detail-form.component';
 
 export const routes: Routes = [
-    {path:'app-reactive-form-add-more-edit/:id', component: ReactiveFormAddMoreEditComponent},
-    {path:'app-reactive-form-add-more', component: ReactiveFormAddMoreComponent},
-    {path:'app-reactive-form-add-view', component: ReactiveFormAddMoreViewComponent},
+    
     {path:'dashboard', component: DashboardComponent},
     {path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    {path: 'app-reactive-form-view-by-id/:id', component: ReactiveFormViewByIdComponent},
-    {path: 'app-reactive-form-view/:id', component: ReactiveFormAddMoreViewComponent}
+    {
+        path: 'personal-detail',
+        component: PersonalDetailFormComponent,
+        children: [
+            {
+                path: 'view-all',
+                component: ReactiveFormAddMoreViewComponent
+            },
+            
+            {path: '', redirectTo: 'view-all', pathMatch: 'full' },
+            {
+                path: 'view',
+                component: ReactiveFormViewByIdComponent
+            },
+            {
+                path:'add',
+                component: ReactiveFormAddMoreComponent
+            },
+            {
+                path:'edit',
+                component: ReactiveFormAddMoreEditComponent
+            }
+        ]
+    }
 ];

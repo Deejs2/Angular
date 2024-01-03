@@ -15,7 +15,6 @@ import { response } from 'express';
   styleUrl: './reactive-form-add-more-edit.component.scss'
 })
 export class ReactiveFormAddMoreEditComponent{
-  page = "Update Reactive Form";
   id:number=0
 
   formSubmitStatus : boolean = false;
@@ -47,19 +46,19 @@ export class ReactiveFormAddMoreEditComponent{
 
     this.maxDate = this.date.transform(new Date(),'yyyy-MM-dd');
 
-    this.router.params.subscribe(
+    this.router.queryParams.subscribe(
       (response: any) => {this.id=response.id},
       (error: any) => {}
     )
   
     this.httpService.getPersonalDetailById(this.id).subscribe(
-      (response: any) => {this.personalDetailFormGroup.patchValue(response)
-      console.log(response)}
-    )
+      (response: any) => {
+        this.personalDetailFormGroup.patchValue(response)
+      console.log(response);
+    }
 
-    this.personalDetailFormGroup.patchValue({
-      dateOfBirth: this.maxDate
-    })
+
+    )
   }
 
   // getter for familyDetailArray

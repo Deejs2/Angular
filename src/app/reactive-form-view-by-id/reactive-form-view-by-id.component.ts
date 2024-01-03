@@ -15,12 +15,11 @@ import { ReactiveFormsModule } from '@angular/forms';
   styleUrl: './reactive-form-view-by-id.component.scss'
 })
 export class ReactiveFormViewByIdComponent implements OnInit{
-  page="View Personal Detail"
   id : number = 0
   formData: any
 
   constructor(private httpService: HttpHandlerService, private router: ActivatedRoute, private fullname: FullnamePipe, private date: DatePipe, private ageFormatter: AgeFormatterPipe){ 
-    this.router.params.subscribe(
+    this.router.queryParams.subscribe(
       (response:any) => {
         this.id = response.id;
       }
