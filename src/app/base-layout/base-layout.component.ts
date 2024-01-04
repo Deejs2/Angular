@@ -8,11 +8,15 @@ import { HttpHandlerService } from '../services/http-handler.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PersonalDetailFormComponent } from '../personal-detail-form/personal-detail-form.component';
+import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-base-layout',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, RouterOutlet, RouterLink, RouterLinkActive, ReactiveFormAddMoreComponent, ReactiveFormAddMoreViewComponent, HttpClientModule, ReactiveFormsModule, PersonalDetailFormComponent],
+  imports: [HeaderComponent, SidebarComponent, RouterOutlet, RouterLink, RouterLinkActive, ReactiveFormAddMoreComponent, 
+    ReactiveFormAddMoreViewComponent, HttpClientModule, ReactiveFormsModule, PersonalDetailFormComponent
+  ],
   providers:[HttpClientModule, HttpHandlerService],
   templateUrl: './base-layout.component.html',
   styleUrl: './base-layout.component.scss'

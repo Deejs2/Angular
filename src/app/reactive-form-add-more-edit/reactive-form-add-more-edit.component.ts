@@ -45,20 +45,19 @@ export class ReactiveFormAddMoreEditComponent{
      
 
     this.maxDate = this.date.transform(new Date(),'yyyy-MM-dd');
+    
 
-    this.router.queryParams.subscribe(
-      (response: any) => {this.id=response.id},
-      (error: any) => {}
-    )
-  
-    this.httpService.getPersonalDetailById(this.id).subscribe(
-      (response: any) => {
-        this.personalDetailFormGroup.patchValue(response)
-      console.log(response);
-    }
+    this.editPersonalDetailById();
 
+    
 
-    )
+   
+    
+  }
+
+  private formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return this.date.transform(date, 'yyyy-MM-dd') || '';
   }
 
   // getter for familyDetailArray
@@ -82,6 +81,43 @@ export class ReactiveFormAddMoreEditComponent{
     if(index>0){
       this.familyDetailArray.removeAt(index);
     }
+  }
+
+  initPersonalDetailResponse(data: any){
+    this.personalDetailFormGroup = this.fb.group({
+      firstname: [data.firstname, Validators.required],
+      lastname: [data.lastname, Validators.required],
+      dateOfBirth: [this.formatDate(data.dateOfBirth), Validators.required],
+      age: [data.age, Validators.required],
+      email: [data.email, [Validators.required, Validators.email]],
+      phone: [data.phone, [Validators.required]],
+      familyDetailArray: this.fb.array([])
+    });
+
+    const familyDetailsArray = this.personalDetailFormGroup.get('familyDetailArray') as FormArray;
+    data.familyDetailArray.forEach((familyDetail: any) => {
+      familyDetailsArray.push(this.fb.group({
+        familyFirstname: [familyDetail.familyFirstname, Validators.required],
+        familyLastname: [familyDetail.familyLastname, Validators.required],
+        familyDateOfBirth: [this.formatDate(familyDetail.familyDateOfBirth), Validators.required],
+        familyAge: [familyDetail.familyAge, Validators.required],
+        familyEmail: [familyDetail.familyEmail, [Validators.required, Validators.email]],
+        familyPhone: [familyDetail.familyPhone, [Validators.required]]
+      }));
+    });
+  }
+
+  editPersonalDetailById(){
+
+    this.router.queryParams.subscribe(
+      (response: any) => {this.id=response.id},
+      (error: any) => {}
+    )
+  
+    this.httpService.getPersonalDetailById(this.id).subscribe(
+      (response: any) => {
+        this.initPersonalDetailResponse(response);
+    })
   }
 
   onSubmitForm() {

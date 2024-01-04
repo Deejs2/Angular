@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ReactiveFormAddMoreComponent } from '../reactive-form-add-more/reactive-form-add-more.component';
 import { HttpHandlerService } from '../services/http-handler.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { AgeFormatterPipe } from '../pipes/age-formatter.pipe';
 import { NepaliNumberPipe } from '../pipes/nepali-number.pipe';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import path from 'path';
-import { response } from 'express';
-import { error } from 'console';
+import { ToastrModule, ToastrService, provideToastr } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-reactive-form-add-more-view',
@@ -26,7 +25,8 @@ export class ReactiveFormAddMoreViewComponent implements OnInit{
 
   constructor(private httpService: HttpHandlerService, private date:DatePipe, private router: Router,
      private ageFormatter: AgeFormatterPipe, private nepaliNumber: NepaliNumberPipe,
-     private aRouter: ActivatedRoute
+     private aRouter: ActivatedRoute,
+    //  private toastr: ToastrService
      ){ }
 
   ngOnInit(): void {
@@ -66,16 +66,21 @@ export class ReactiveFormAddMoreViewComponent implements OnInit{
 
   onClickDelete(id: number){
 
-    this.httpService.removePersonalDetailById(id).subscribe(
-      (response:any) => {
-        console.log(response)
-        this.getDetails();
-      },
-      (error:any) => {
-        console.log("Error While Deleting")
-        this.getDetails();
-      }
-    )
+    // this.toastr.success("This is From Toast!")
+    if(confirm("Do You Really Want To Delete ID: "+id+" ?")){
+      this.httpService.removePersonalDetailById(id).subscribe(
+        (response:any) => {
+          console.log(response.data)
+          this.getDetails();
+        },
+        (error:any) => {
+          console.log("Error While Deleting")
+          this.getDetails();
+        }
+      )
+    }
+
   }
+
 
 }

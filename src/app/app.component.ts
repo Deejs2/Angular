@@ -4,6 +4,8 @@ import { HttpHandlerService } from './services/http-handler.service';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { provideToastr } from 'ngx-toastr';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
