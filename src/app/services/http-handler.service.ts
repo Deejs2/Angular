@@ -12,6 +12,7 @@ export class HttpHandlerService {
   private getAddress="http://localhost:8080/address/fetch";
   private getPersonalDetailByIdUrl = "http://localhost:8080/personalDetail/fetch/";
   private removePersonalDetailByIdUrl = "http://localhost:8080/personalDetail/delete/";
+  private updatePersonalDetailUrl = "http://localhost:8080/personalDetail/update/";
 
   constructor(private http: HttpClient) { }
 
@@ -42,5 +43,9 @@ export class HttpHandlerService {
 
   removePersonalDetailById(id:number):Observable<any>{
     return this.http.delete<any>(this.removePersonalDetailByIdUrl+id)
+  }
+
+  updatePersonalDetail(data:any, id:number): Observable<any>{
+    return this.http.put<any>(this.updatePersonalDetailUrl+id, data)
   }
 }

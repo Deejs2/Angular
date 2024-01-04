@@ -1,10 +1,9 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedService } from '../services/shared.service';
 import { HttpHandlerService } from '../services/http-handler.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { response } from 'express';
 
 @Component({
   selector: 'app-reactive-form-add-more-edit',
@@ -25,7 +24,10 @@ export class ReactiveFormAddMoreEditComponent{
 
   personalDetailFormGroup: FormGroup = new FormGroup<any>({});
 
-  constructor(private fb: FormBuilder,private date : DatePipe, private sharedService: SharedService, private router: ActivatedRoute ,private httpService: HttpHandlerService) {
+  constructor(private fb: FormBuilder,private date : DatePipe, private sharedService: SharedService, 
+    private router: ActivatedRoute ,private httpService: HttpHandlerService,
+    private location: Location
+    ) {
     }
 
   ngOnInit(): void {
@@ -97,6 +99,7 @@ export class ReactiveFormAddMoreEditComponent{
     const familyDetailsArray = this.personalDetailFormGroup.get('familyDetailArray') as FormArray;
     data.familyDetailArray.forEach((familyDetail: any) => {
       familyDetailsArray.push(this.fb.group({
+        id: [familyDetail.id],
         familyFirstname: [familyDetail.familyFirstname, Validators.required],
         familyLastname: [familyDetail.familyLastname, Validators.required],
         familyDateOfBirth: [this.formatDate(familyDetail.familyDateOfBirth), Validators.required],
@@ -120,12 +123,30 @@ export class ReactiveFormAddMoreEditComponent{
     })
   }
 
+  onClickCancel(){
+    this.location.back()
+  }
+
   onSubmitForm() {
 
     this.formSubmitStatus = true;
 
-    console.log(this.personalDetailFormGroup.value);
-
+    if(this.personalDetailFormGroup.valid){
+      this.httpService.updatePersonalDetail(this.personalDetailFormGroup.value, this.id).subscribe(
+        (response: any) => {
+          // Handle the API response
+          // console.log('API Response:', response);
+          console.log("Update Form Value Of ID :"+this.id+ "Submitted Successfully!");
+          this.onClickCancel();
+        },
+        (error: any) => {
+          // Handle API error
+          // console.error('API Error:', error);
+          console.log("Error while submitting Updating");
+        }
+      );
+      
+    }
   }
 
   calculateAge(dob:any){

@@ -15,6 +15,7 @@ import { SharedService } from '../services/shared.service';
 export class DashboardComponent {
   page="Dashboard"
   user=""
+  
 
   addressData: any 
 

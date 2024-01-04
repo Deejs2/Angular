@@ -1,4 +1,4 @@
-import { Component, mergeApplicationConfig } from '@angular/core';
+import { Component, EventEmitter, Output, mergeApplicationConfig } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -23,6 +23,14 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 })
 export class BaseLayoutComponent {
     page = "Dashboard"
+
+    brandName="Angular App"
+
+    dataFromChild : string ='';
+
+  handleData(data: string){
+    this.dataFromChild = data;
+  }
 
     constructor(private httpService: HttpHandlerService){}
     

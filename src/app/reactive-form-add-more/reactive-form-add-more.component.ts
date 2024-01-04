@@ -1,16 +1,19 @@
-import { DatePipe, Location, NgFor, NgIf } from '@angular/common';
+import { CommonModule, DatePipe, Location } from '@angular/common';
 import { Component, OnInit, Pipe } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AgeFormatterPipe } from '../pipes/age-formatter.pipe';
 import { SharedService } from '../services/shared.service';
 import { HttpHandlerService } from '../services/http-handler.service';
 import { NepaliNumberPipe } from '../pipes/nepali-number.pipe';
+import { ToastrServiceTsService } from '../services/toastr.service.ts.service';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-reactive-form-add-more',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf, NgFor, DatePipe, AgeFormatterPipe, NepaliNumberPipe],
-  providers: [DatePipe,NepaliNumberPipe, SharedService, HttpHandlerService, AgeFormatterPipe],
+  imports: [ReactiveFormsModule, CommonModule, DatePipe, AgeFormatterPipe, NepaliNumberPipe, ToastrModule, BrowserAnimationsModule],
+  providers: [DatePipe,NepaliNumberPipe, SharedService, HttpHandlerService, AgeFormatterPipe, ToastrServiceTsService],
   templateUrl: './reactive-form-add-more.component.html',
   styleUrl: './reactive-form-add-more.component.scss'
 
@@ -28,7 +31,8 @@ export class ReactiveFormAddMoreComponent implements OnInit{
     private date : DatePipe, 
     private sharedService: SharedService, 
     private httpService: HttpHandlerService,
-    private location: Location
+    private location: Location,
+    private toastr: ToastrServiceTsService
     ) {}
 
   ngOnInit(): void {
@@ -79,6 +83,7 @@ export class ReactiveFormAddMoreComponent implements OnInit{
     this.location.back();
   }
 
+
   onSubmitForm() {
 
     this.formSubmitStatus = true;
@@ -92,6 +97,7 @@ export class ReactiveFormAddMoreComponent implements OnInit{
           // Handle the API response
           // console.log('API Response:', response);
           console.log("Form Value Submitted by API");
+          this.toastr.showSuccess('Hello world!');
           this.onClickCancel();
         },
         (error: any) => {

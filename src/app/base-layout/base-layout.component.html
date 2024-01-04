@@ -1,15 +1,18 @@
 <div class="sb-nav-fixed">
-    <app-header></app-header>
+    <app-header [dataFromParent]="brandName" (dataToParent)="handleData($event)"></app-header>
     <div id="layoutSidenav">
         <app-sidebar></app-sidebar>
         <div id="layoutSidenav_content">
             <main>
+                <div class="alert alert-info p-1 m-3" role="alert">
+                    Hey! I am Data From Child: {{dataFromChild}}
+                </div>
                 <router-outlet></router-outlet>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
                     <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Angular App 2023. Designed by Dhiraj Jirel</div>
+                        <div class="text-muted">Copyright &copy; {{brandName}} 2023. Designed by Dhiraj Jirel</div>
                         <div>
                             <a href="#">Privacy Policy</a>
                             &middot;
